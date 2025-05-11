@@ -11,7 +11,7 @@ function createWindow () {
     }
   });
 
-  win.loadFile('index.html');
+  win.loadFile('frontend/index.html');
   win.setMenuBarVisibility(false);
 
   win.webContents.on('before-input-event', (event, input) => {
