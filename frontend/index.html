@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The coolest window open right now</title>
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #f1f1f1;
+      font-family: sans-serif;
+      margin: 20px;
+    }
+
+    select, button {
+      background-color: #2e2e2e;
+      color: #f1f1f1;
+      border: 1px solid #555;
+      padding: 5px;
+    }
+
+    #llmOutput {
+      background-color: #2e2e2e;
+      color: #f1f1f1;
+      padding: 1em;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      font-family: monospace;
+      border: 1px solid #444;
+    }
+
+    #recordingStatus {
+      color: #6af76a;
+      font-weight: bold;
+    }
+
+    h1, h2 {
+      color: #f1f1f1;
+    }
+
+    a, code {
+      color: #ccc;
+    }
+
+    #status {
+      font-size: 0.9em;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <h1><strong>Push to Talk Ollama with Whisper</strong></h1>
+  <h3>All ROCm all the time baby! Runs 100% local to your machine</h3>
+
+  <p>Press and hold <strong>Spacebar</strong> to record your message.</p>
+  <p>Release to transcribe and send to Ollama</p>
+
+  <p>Select Whisper Model:</p>
+  <select id="modelSelect">
+    <option value="tiny">tiny</option>
+    <option value="base">base</option>
+    <option value="small">small</option>
+    <option value="medium">medium</option>
+    <option value="large">large</option>
+    <option value="large-v3">large-v3</option>
+    <option value="large-v3-turbo">large-v3-turbo</option>
+  </select><br><br>
+
+  <p>Select Ollama Model:</p>
+  <select id="ollamaModelSelect">
+    <option disabled selected>Loading models...</option>
+  </select><br><br>
+
+  <div id="recordingStatus"></div>
+  <hr>
+
+  <h2>Response from Ollama:</h2>
+  <pre id="llmOutput"></pre>
+
+  <p id="status">Brought to you by david-cant-code</p>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
