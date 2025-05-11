@@ -99,7 +99,7 @@ function stopRecording() {
 }
 
 async function transcribeAndSend(audioPath) {
-  const pythonPath = path.join(__dirname, 'venv', 'bin', 'python');
+  const pythonPath = path.join(__dirname, '..', 'venv', 'bin', 'python');
   const modelSize = document.getElementById('modelSelect')?.value || 'base';
   const outputDir = os.tmpdir();
   const outputFileName = `transcript_${randomUUID()}.json`;
