@@ -1,0 +1,13 @@
+{
+  "name": "push-to-talk-ollama-with-whisper",
+  "version": "0.0.1",
+  "description": "All ROCm push to talk Ollama electron app with Whisper",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^28.1.0"
+  }
+}
