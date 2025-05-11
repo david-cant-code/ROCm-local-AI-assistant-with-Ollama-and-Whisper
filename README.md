@@ -35,3 +35,7 @@ yes, that includes you, who knows I could be a total dick
     ```bash
     ./install.sh
     ```
+3. Run the electron app, if crap happens, hit f12 while is running to get a console
+   ```bash
+   npm start
+   ```
