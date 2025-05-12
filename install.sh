@@ -121,7 +121,7 @@ deactivate
 
 # venv for xtts backend
 python3.11 -m venv tts-venv
-source venv/bin/activate
+source tts-venv/bin/activate
 
 #install xtts
 pip install --upgrade pip
