@@ -194,7 +194,7 @@ async function queryOllama(fullText) {
         }
       }
     }
-
+    await speakWithXTTS(output.textContent.split(`${selectedModel}:`).pop().trim());
     document.getElementById('recordingStatus').textContent = "Ready for next message.";
 
   } catch (err) {
@@ -211,5 +211,26 @@ function cleanupFiles(audioPath, transcriptPath) {
   fs.unlink(audioPath, err => {
     if (err) console.error("Failed to delete audio:", err);
     else console.log("Deleted audio file:", audioPath);
+  });
+}
+
+async function speakWithXTTS(text) {
+  const enabled = document.getElementById('enableTTS')?.checked;
+  if (!enabled) {
+    console.log("TTS disabled — skipping speech.");
+    return;
+  }
+
+  const pythonPath = path.join(__dirname, '..', 'tts-venv', 'bin', 'python');
+  const scriptPath = path.join(__dirname, '..', 'backend', 'speak_xtts.py');
+
+  const proc = spawn(pythonPath, [scriptPath, text]);
+
+  proc.stderr.on('data', data => {
+    console.error('TTS error:', data.toString());
+  });
+
+  proc.on('close', code => {
+    console.log(`TTS script exited with code ${code}`);
   });
 }
