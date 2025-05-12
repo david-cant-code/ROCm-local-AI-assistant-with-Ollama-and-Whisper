@@ -107,11 +107,26 @@ echo "setting up python venv and installing python packages"
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
 sleep 1
+
+# venv for whisper backend
 python3.11 -m venv venv
 source venv/bin/activate
 
 # install python dependencies
+pip install --upgrade pip
 pip install -r backend/requirements.txt -c backend/constraints.txt --extra-index-url https://download.pytorch.org/whl/rocm5.7
+
+# exit venv
+deactivate
+
+# venv for xtts backend
+python3.11 -m venv tts-venv
+source venv/bin/activate
+
+#install xtts
+pip install --upgrade pip
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm5.7
+pip install TTS
 
 # exit venv
 deactivate
