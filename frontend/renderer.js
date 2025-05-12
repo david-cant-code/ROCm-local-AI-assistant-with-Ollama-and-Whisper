@@ -107,7 +107,7 @@ async function transcribeAndSend(audioPath) {
   console.log("Launching transcription for:", audioPath);
 
   const python = spawn(pythonPath, [
-    path.join(__dirname, 'backend', 'whisper_backend.py'),
+    path.join(__dirname, '..', 'backend', 'whisper_backend.py'),
     audioPath,
     modelSize,
     outputDir,
