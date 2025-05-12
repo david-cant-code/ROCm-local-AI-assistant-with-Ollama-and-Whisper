@@ -41,7 +41,7 @@ yes, that includes you, who knows I could be a total dick
     ```bash
     ./install.sh
     ```
-5. Run the electron app, if crap happens, hit f12 while is running to get a console. app will handle using the different venvs on its own
+5. Run the electron app, if crap happens, hit f12 while is running to get a console. The app will handle using the different venvs on its own
    ```bash
    npm start
    ```
