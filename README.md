@@ -25,6 +25,9 @@ yes, that includes you, who knows I could be a total dick
 
 1. Clone this repo and get setup:
     ```bash
+    sudo apt install git -y
+    ```
+    ```bash
     git clone https://github.com/david-cant-code/cool-repo-name-here/
     ```
     ```bash
