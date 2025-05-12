@@ -7,6 +7,8 @@ Use at your own risk, this has not been thouroughly tested. You should never run
 yes, that includes you, who knows I could be a total dick
 
 ---
+![Screenshot of the app](assets/screenGrab1.png)
+---
 
 ## Plans for the Future
 
@@ -18,7 +20,6 @@ yes, that includes you, who knows I could be a total dick
 
 ---
 
----
 
 ## Installation
 
