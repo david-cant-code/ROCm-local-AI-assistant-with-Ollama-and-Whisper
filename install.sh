@@ -59,7 +59,8 @@ install_debian_packages() {
       libpangocairo-1.0-0 \
       xdg-utils \
       libdbus-glib-1-2 \
-      libgconf-2-4
+      libgconf-2-4 \
+      alsa-utils      
 
 }
 
