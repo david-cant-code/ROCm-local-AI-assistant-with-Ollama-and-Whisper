@@ -3,8 +3,7 @@ An electron app that utilizes Ollama and Whisper to implement a push-to-talk int
 
 You must have Ollama already installed on your machine, this assumes you have a working Ollama isntance
 
-Use at your own risk, this has not been thouroughly tested. You should never run scripts from the internet without reading them, so read my scripts first. 
-yes, that includes you, who knows I could be a total dick
+Use at your own risk, this has not been thouroughly tested. You should never run scripts from the internet without reading them, so read my scripts first.
 
 ---
 ![Screenshot of the app](assets/screenGrab1.png)
