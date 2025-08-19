@@ -1,5 +1,5 @@
-# cool-repo-name-here
-An electron app that utilizes Ollama and Whisper to implement a push-to-talk interface. This app uses all ROCm, no nvidia users allowed.
+# ROCm Local AI Assistant
+An electron app that utilizes Ollama and Whisper to implement a push-to-talk interface. This app implements ROCm in place of Cuda, and is made for systems with AMD GPUs
 
 You must have Ollama already installed on your machine, this assumes you have a working Ollama isntance
 
