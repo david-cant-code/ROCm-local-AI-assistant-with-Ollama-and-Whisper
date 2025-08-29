@@ -27,7 +27,7 @@ Use at your own risk, this has not been thouroughly tested. You should never run
     sudo apt install git -y
     ```
     ```bash
-    git clone https://github.com/david-cant-code/cool-repo-name-here/
+    git clone https://github.com/david-cant-code/local-AI-assistant-with-Ollama-and-Whisper
     ```
     ```bash
     cd cool-repo-name-here
