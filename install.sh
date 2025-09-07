@@ -26,11 +26,11 @@ install_debian_packages() {
     echo "Installing packages for Debian/Ubuntu, enter password when prompted"
     echo "Dont forget to read the script first so you know what youre installing"
     sudo apt update
-    sudo apt install -y python3.11 python3-pip python3.11-venv python3-tk ffmpeg nodejs npm
+    sudo apt install -y python3.12 python3-pip python3.12-venv python3-tk ffmpeg nodejs npm
     sudo apt install -y \
-      python3.11 \
+      python3.12 \
       python3-pip \
-      python3.11-venv \
+      python3.12-venv \
       python3-tk \
       ffmpeg \
       nodejs \
@@ -92,7 +92,7 @@ elif [[ "$DISTRO" == "fedora" ]]; then
     #    install_fedora_packages
     #else
     #    echo "Skipping package installation. You should install these on your own then:"
-    #    echo "python3.11 python3-pip python3-virtualenv python3-tkinter ffmpeg git"
+    #    echo "python3.12 python3-pip python3-virtualenv python3-tkinter ffmpeg git"
     #fi
 
 else
@@ -110,7 +110,7 @@ echo ""
 sleep 1
 
 # venv for whisper backend
-python3.11 -m venv venv
+python3.12 -m venv venv
 source venv/bin/activate
 
 # install python dependencies
@@ -121,7 +121,7 @@ pip install -r backend/requirements.txt -c backend/constraints.txt --extra-index
 deactivate
 
 # venv for xtts backend
-python3.11 -m venv tts-venv
+python3.12 -m venv tts-venv
 source tts-venv/bin/activate
 
 #install xtts
