@@ -30,7 +30,7 @@ Use at your own risk, this has not been thouroughly tested. You should never run
     git clone https://github.com/david-cant-code/ROCm-local-AI-assistant-with-Ollama-and-Whisper
     ```
     ```bash
-    cd cool-repo-name-here
+    cd ROCm-local-AI-assistant-with-Ollama-and-Whisper
     ```
     ```bash
     chmod +x install.sh
