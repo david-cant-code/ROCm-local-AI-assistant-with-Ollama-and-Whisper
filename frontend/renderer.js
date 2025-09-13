@@ -9,15 +9,17 @@ console.log("renderer.js loaded");
 let recordedChunks = [];
 let mediaRecorder = null;
 let isRecording = false;
+let autoStopTimer = null;
 
 window.addEventListener('DOMContentLoaded', () => {
   console.log("DOMContentLoaded event triggered");
 
   loadOllamaModels();
 
+  // Start on first Space keydown only (ignore auto-repeat)
   window.addEventListener('keydown', async (e) => {
-    console.log("Key down:", e.code);
-    if (e.code === 'Space') {
+    console.log("Key down:", e.code, "repeat:", e.repeat);
+    if (e.code === 'Space' && !e.repeat) {
       e.preventDefault();
       try {
         startRecording();
@@ -27,6 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Stop on Space keyup
   window.addEventListener('keyup', (e) => {
     console.log("Key up:", e.code);
     if (e.code === 'Space') {
@@ -36,6 +39,14 @@ window.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         console.error("Error stopping recording:", err);
       }
+    }
+  });
+
+  // Safety: if the window loses focus while recording, stop gracefully.
+  window.addEventListener('blur', () => {
+    if (isRecording) {
+      console.log("Window blurred; auto-stopping recording.");
+      stopRecording();
     }
   });
 });
@@ -65,25 +76,24 @@ async function loadOllamaModels() {
 async function startRecording() {
   if (isRecording) return;
   isRecording = true;
+
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   recordedChunks = [];
   mediaRecorder = new MediaRecorder(stream);
 
-  mediaRecorder.ondataavailable = e => recordedChunks.push(e.data);
-  mediaRecorder.start();
+  mediaRecorder.ondataavailable = e => {
+    if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+  };
 
-  console.log("Recording started...");
-  document.getElementById('recordingStatus').textContent = "Recording...";
-}
-
-function stopRecording() {
-  if (!isRecording || !mediaRecorder) return;
-  isRecording = false;
-
-  mediaRecorder.stop();
-
+  // IMPORTANT: attach onstop BEFORE any stop() calls might happen
   mediaRecorder.onstop = () => {
     console.log("Recording stopped.");
+    // Clear the auto-stop timer if active
+    if (autoStopTimer) {
+      clearTimeout(autoStopTimer);
+      autoStopTimer = null;
+    }
+
     const blob = new Blob(recordedChunks, { type: 'audio/webm' });
     const reader = new FileReader();
     reader.onload = () => {
@@ -92,10 +102,45 @@ function stopRecording() {
       fs.writeFileSync(audioPath, buffer);
       console.log("Saved audio to:", audioPath);
 
+      // release mic
+      try {
+        stream.getTracks().forEach(t => t.stop());
+      } catch (e) {
+        console.warn("Failed to stop input stream tracks:", e);
+      }
+
       transcribeAndSend(audioPath);
     };
     reader.readAsArrayBuffer(blob);
   };
+
+  mediaRecorder.onerror = (e) => {
+    console.error("MediaRecorder error:", e.error || e);
+  };
+
+  mediaRecorder.start();
+
+  console.log("Recording started...");
+  document.getElementById('recordingStatus').textContent = "Recording...";
+
+  // Safety cap: auto-stop after 60s if keyup is missed
+  autoStopTimer = setTimeout(() => {
+    if (isRecording) {
+      console.log("Auto-stop timer fired; stopping recording.");
+      stopRecording();
+    }
+  }, 60000);
+}
+
+function stopRecording() {
+  if (!isRecording || !mediaRecorder) return;
+  isRecording = false;
+
+  try {
+    mediaRecorder.stop();
+  } catch (e) {
+    console.warn("Stop called but recorder was already stopped:", e);
+  }
 }
 
 async function transcribeAndSend(audioPath) {
@@ -127,10 +172,12 @@ async function transcribeAndSend(audioPath) {
         cleanupFiles(audioPath, res.output_file);
       } else {
         console.error("Transcription error:", res.message);
+        document.getElementById('recordingStatus').textContent = "Transcription error.";
       }
     } catch (err) {
       console.error("Failed to parse output:", err);
       console.error("Raw output was:", data.toString());
+      document.getElementById('recordingStatus').textContent = "Transcription failed (parse).";
     }
   });
 
@@ -157,7 +204,6 @@ async function queryOllama(fullText) {
     const modelLabel = document.createElement('div');
     modelLabel.textContent = `${selectedModel}:`;
     output.appendChild(modelLabel);
-
 
     const response = await fetch('http://localhost:11434/api/generate', {
       method: 'POST',
@@ -194,11 +240,14 @@ async function queryOllama(fullText) {
         }
       }
     }
+
+    // Speak last model chunk if XTTS is enabled
     await speakWithXTTS(output.textContent.split(`${selectedModel}:`).pop().trim());
     document.getElementById('recordingStatus').textContent = "Ready for next message.";
 
   } catch (err) {
     console.error("Failed to get a response from Ollama:", err);
+    document.getElementById('recordingStatus').textContent = "Ollama request failed.";
   }
 }
 
