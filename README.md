@@ -1,6 +1,6 @@
 # ROCm Local AI Assistant
 
-***TTS (Coqui) currently fails on recent updates because the project hasn’t published wheels for Python 3.12. Most distros now default to 3.12, so pip install TTS breaks unless you use Python 3.11 from another source***
+***This is dead in the water now, not updating or fixing some issues that popped up, its more just a fun project not worth maintaining. Leaving it up in case anyone plans to do anything similar***
 
 An electron app that utilizes Ollama and Whisper to implement a push-to-talk interface. This app implements ROCm in place of Cuda, and is made for systems with AMD GPUs
 
